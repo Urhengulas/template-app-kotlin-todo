@@ -16,6 +16,8 @@ inline fun <reified T> T.TAG(): String = T::class.java.simpleName
 */
 class TemplateApp : Application() {
 
+    private val wattOfApp = WattOfApp(applicationContext)
+
     override fun onCreate() {
         super.onCreate()
         app = App.create(
