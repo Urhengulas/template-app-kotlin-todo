@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdk = 33
     defaultConfig {
-        applicationId = "com.mongodb.app"
+        applicationId = "com.emission_meter.demo"
         minSdk = 28
         targetSdk = 33
         versionCode = 1
@@ -24,7 +24,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.3.2"
     }
-    namespace = "com.mongodb.app"
+    namespace = "com.emission_meter.demo"
 }
 
 dependencies {
