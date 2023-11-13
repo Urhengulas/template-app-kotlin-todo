@@ -40,10 +40,12 @@ class ComposeLoginActivity : ComponentActivity() {
                         is LoginEvent.GoToTasks -> {
                             event.process()
 
-                            val intent = Intent(this@ComposeLoginActivity, ComposeItemActivity::class.java)
+                            val intent =
+                                Intent(this@ComposeLoginActivity, ComposeItemActivity::class.java)
                             startActivity(intent)
                             finish()
                         }
+
                         is LoginEvent.ShowMessage -> event.process()
                     }
                 }

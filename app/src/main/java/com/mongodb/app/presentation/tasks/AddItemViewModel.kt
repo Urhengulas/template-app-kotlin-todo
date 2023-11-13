@@ -59,7 +59,12 @@ class AddItemViewModel(
                 }
             }.onFailure {
                 withContext(Dispatchers.Main) {
-                    _addItemEvent.emit(AddItemEvent.Error("There was an error while adding the task '$taskSummary'", it))
+                    _addItemEvent.emit(
+                        AddItemEvent.Error(
+                            "There was an error while adding the task '$taskSummary'",
+                            it
+                        )
+                    )
                 }
             }
             cleanUpAndClose()

@@ -100,6 +100,7 @@ fun LoginScaffold(loginViewModel: LoginViewModel) {
                                         state.email,
                                         state.password
                                     )
+
                                     LoginAction.CREATE_ACCOUNT -> loginViewModel.createAccount(
                                         state.email,
                                         state.password
@@ -121,7 +122,9 @@ fun LoginScaffold(loginViewModel: LoginViewModel) {
                                 val state = loginViewModel.state.value
                                 when (state.action) {
                                     LoginAction.LOGIN -> loginViewModel.switchToAction(LoginAction.CREATE_ACCOUNT)
-                                    LoginAction.CREATE_ACCOUNT -> loginViewModel.switchToAction(LoginAction.LOGIN)
+                                    LoginAction.CREATE_ACCOUNT -> loginViewModel.switchToAction(
+                                        LoginAction.LOGIN
+                                    )
                                 }
                             }
                         ) {

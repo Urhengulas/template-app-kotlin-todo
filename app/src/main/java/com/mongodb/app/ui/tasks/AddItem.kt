@@ -52,7 +52,7 @@ fun AddItemPrompt(viewModel: AddItemViewModel) {
                 colors = buttonColors(containerColor = Purple200),
                 onClick = {
                     viewModel.addTask()
-                    Log.v("TemplateApp","To see your data in Atlas, follow this link:"  + link)
+                    Log.v("TemplateApp", "To see your data in Atlas, follow this link:" + link)
                 }
             ) {
                 Text(stringResource(R.string.create))

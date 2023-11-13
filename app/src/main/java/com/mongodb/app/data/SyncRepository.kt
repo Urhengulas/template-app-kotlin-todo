@@ -1,7 +1,7 @@
 package com.mongodb.app.data
 
-import com.mongodb.app.domain.Item
 import com.mongodb.app.app
+import com.mongodb.app.domain.Item
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.mongodb.User
@@ -157,6 +157,7 @@ class RealmSyncRepository(
         return when (val name = firstOrNull?.name) {
             null,
             SubscriptionType.MINE.name -> SubscriptionType.MINE
+
             SubscriptionType.ALL.name -> SubscriptionType.ALL
             else -> throw IllegalArgumentException("Invalid Realm Sync subscription: '$name'")
         }

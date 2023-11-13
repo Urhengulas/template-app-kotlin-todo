@@ -49,7 +49,12 @@ class SubscriptionTypeViewModel(
                 }
             }.onFailure {
                 withContext(Dispatchers.Main) {
-                    _subscriptionTypeEvent.emit(SubscriptionTypeEvent.Error("There was an error while switching to '${subscriptionType.name}'", it))
+                    _subscriptionTypeEvent.emit(
+                        SubscriptionTypeEvent.Error(
+                            "There was an error while switching to '${subscriptionType.name}'",
+                            it
+                        )
+                    )
                 }
             }
         }

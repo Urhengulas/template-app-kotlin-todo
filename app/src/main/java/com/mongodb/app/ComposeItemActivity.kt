@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
@@ -34,7 +33,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
@@ -75,7 +73,11 @@ class ComposeItemActivity : ComponentActivity() {
             // since we prevent users from modifying someone else's tasks
             // TODO the SDK does not have an enum for this type of error yet so make sure to update this once it has been added
             if (error.message?.contains("CompensatingWrite") == true) {
-                Toast.makeText(this@ComposeItemActivity, getString(R.string.permissions_error), Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    this@ComposeItemActivity,
+                    getString(R.string.permissions_error),
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
         }
@@ -100,7 +102,10 @@ class ComposeItemActivity : ComponentActivity() {
         lifecycleScope.launch {
             taskViewModel.event
                 .collect {
-                    Log.i(TAG(), "Tried to modify or remove a task that doesn't belong to the current user.")
+                    Log.i(
+                        TAG(),
+                        "Tried to modify or remove a task that doesn't belong to the current user."
+                    )
                     Toast.makeText(
                         this@ComposeItemActivity,
                         getString(R.string.permissions_warning),
@@ -114,13 +119,23 @@ class ComposeItemActivity : ComponentActivity() {
                 .collect { toolbarEvent ->
                     when (toolbarEvent) {
                         ToolbarEvent.LogOut -> {
-                            startActivity(Intent(this@ComposeItemActivity, ComposeLoginActivity::class.java))
+                            startActivity(
+                                Intent(
+                                    this@ComposeItemActivity,
+                                    ComposeLoginActivity::class.java
+                                )
+                            )
                             finish()
                         }
+
                         is ToolbarEvent.Info ->
                             Log.e(TAG(), toolbarEvent.message)
+
                         is ToolbarEvent.Error ->
-                            Log.e(TAG(), "${toolbarEvent.message}: ${toolbarEvent.throwable.message}")
+                            Log.e(
+                                TAG(),
+                                "${toolbarEvent.message}: ${toolbarEvent.throwable.message}"
+                            )
                     }
                 }
         }
@@ -131,6 +146,7 @@ class ComposeItemActivity : ComponentActivity() {
                     when (fabEvent) {
                         is AddItemEvent.Error ->
                             Log.e(TAG(), "${fabEvent.message}: ${fabEvent.throwable.message}")
+
                         is AddItemEvent.Info ->
                             Log.e(TAG(), fabEvent.message)
                     }
@@ -142,9 +158,14 @@ class ComposeItemActivity : ComponentActivity() {
                 .collect { subscriptionTypeEvent ->
                     when (subscriptionTypeEvent) {
                         is SubscriptionTypeEvent.Error ->
-                            Log.e(TAG(), "${subscriptionTypeEvent.message}: ${subscriptionTypeEvent.throwable.message}")
+                            Log.e(
+                                TAG(),
+                                "${subscriptionTypeEvent.message}: ${subscriptionTypeEvent.throwable.message}"
+                            )
+
                         is SubscriptionTypeEvent.Info ->
                             Log.i(TAG(), subscriptionTypeEvent.message)
+
                         SubscriptionTypeEvent.PermissionsEvent -> {
                             Log.i(TAG(), "Tried to switch subscription while offline.")
                             Toast.makeText(
@@ -212,7 +233,8 @@ fun TaskListScaffold(
                 containerColor = Color.LightGray
             ) {
                 Box(
-                    modifier = Modifier.align(Alignment.Top)
+                    modifier = Modifier
+                        .align(Alignment.Top)
                         .padding(0.dp, 0.dp, 0.dp, 0.dp),
                 ) {
                     ClickableText(

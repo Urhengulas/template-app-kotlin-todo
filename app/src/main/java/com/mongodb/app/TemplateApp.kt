@@ -14,7 +14,7 @@ inline fun <reified T> T.TAG(): String = T::class.java.simpleName
 /*
 *  Sets up the App and enables Realm-specific logging in debug mode.
 */
-class TemplateApp: Application() {
+class TemplateApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
@@ -28,6 +28,9 @@ class TemplateApp: Application() {
         // https://github.com/mongodb/template-app-kotlin-todo, 
         // it does not contain the data explorer link. Download the
         // app template from the Atlas UI to view a link to your data.
-        Log.v(TAG(),"To see your data in Atlas, follow this link:" + getString(R.string.realm_data_explorer_link))
+        Log.v(
+            TAG(),
+            "To see your data in Atlas, follow this link:" + getString(R.string.realm_data_explorer_link)
+        )
     }
 }

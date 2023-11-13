@@ -18,13 +18,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mongodb.app.R
 import com.mongodb.app.data.MockRepository
-import com.mongodb.app.data.SyncRepository
 import com.mongodb.app.domain.Item
 import com.mongodb.app.presentation.tasks.ItemContextualMenuViewModel
 import com.mongodb.app.presentation.tasks.TaskViewModel
 import com.mongodb.app.ui.theme.Blue
 import com.mongodb.app.ui.theme.MyApplicationTheme
-import kotlinx.coroutines.flow.MutableSharedFlow
 
 @Composable
 fun TaskItem(
@@ -68,12 +66,12 @@ fun TaskItem(
 
         // Delete icon
 //        if (repository.isTaskMine(task)) {
-            Row(
-                horizontalArrangement = Arrangement.End,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                ItemContextualMenu(itemContextualMenuViewModel, task)
-            }
+        Row(
+            horizontalArrangement = Arrangement.End,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            ItemContextualMenu(itemContextualMenuViewModel, task)
+        }
 //        }
     }
 }

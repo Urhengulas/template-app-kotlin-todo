@@ -39,6 +39,7 @@ class TaskViewModel constructor(
                             taskListState.clear()
                             taskListState.addAll(event.list)
                         }
+
                         is UpdatedResults -> {
                             if (event.deletions.isNotEmpty() && taskListState.isNotEmpty()) {
                                 event.deletions.reversed().forEach {
@@ -57,6 +58,7 @@ class TaskViewModel constructor(
                                 }
                             }
                         }
+
                         else -> Unit // No-op
                     }
                 }

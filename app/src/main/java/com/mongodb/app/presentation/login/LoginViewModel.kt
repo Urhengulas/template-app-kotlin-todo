@@ -4,9 +4,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.mongodb.app.app
 import com.mongodb.app.data.AuthRepository
 import com.mongodb.app.data.RealmAuthRepository
-import com.mongodb.app.app
 import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.exceptions.ConnectionException
 import io.realm.kotlin.mongodb.exceptions.InvalidCredentialsException
@@ -87,7 +87,12 @@ class LoginViewModel : ViewModel() {
             runCatching {
                 authRepository.createAccount(email, password)
             }.onSuccess {
-                _event.emit(LoginEvent.ShowMessage(EventSeverity.INFO, "User created successfully."))
+                _event.emit(
+                    LoginEvent.ShowMessage(
+                        EventSeverity.INFO,
+                        "User created successfully."
+                    )
+                )
                 login(email, password)
             }.onFailure { ex: Throwable ->
                 _state.value = state.value.copy(enabled = true)
@@ -109,7 +114,12 @@ class LoginViewModel : ViewModel() {
             runCatching {
                 app.login(Credentials.emailPassword(email, password))
             }.onSuccess {
-                _event.emit(LoginEvent.GoToTasks(EventSeverity.INFO, "User logged in successfully."))
+                _event.emit(
+                    LoginEvent.GoToTasks(
+                        EventSeverity.INFO,
+                        "User logged in successfully."
+                    )
+                )
             }.onFailure { ex: Throwable ->
                 _state.value = state.value.copy(enabled = true)
                 val message = when (ex) {
