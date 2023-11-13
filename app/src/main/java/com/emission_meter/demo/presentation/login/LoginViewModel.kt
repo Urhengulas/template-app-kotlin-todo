@@ -112,7 +112,7 @@ class LoginViewModel : ViewModel() {
 
         CoroutineScope(Dispatchers.IO).launch {
             runCatching {
-                app.login(Credentials.emailPassword(email, password))
+                authRepository.login(email, password)
             }.onSuccess {
                 _event.emit(
                     LoginEvent.GoToTasks(
