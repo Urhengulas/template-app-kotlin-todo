@@ -16,7 +16,7 @@ inline fun <reified T> T.TAG(): String = T::class.java.simpleName
 */
 class TemplateApp : Application() {
 
-    private val wattOfApp = WattOfApp(applicationContext)
+    private lateinit var energyMonitor: EnergyMonitor
 
     override fun onCreate() {
         super.onCreate()
@@ -34,5 +34,15 @@ class TemplateApp : Application() {
             TAG(),
             "To see your data in Atlas, follow this link:" + getString(R.string.realm_data_explorer_link)
         )
+
+        // Initialize the energy monitor when the application starts
+        EnergyMonitor.initialize(applicationContext)
+    }
+
+    override fun onTerminate() {
+        super.onTerminate()
+
+        // Stop the energy monitor when the application terminates
+        EnergyMonitor.stop(applicationContext)
     }
 }
