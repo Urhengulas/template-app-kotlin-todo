@@ -21,7 +21,7 @@ class WattOfApp constructor(context: Context?) {
         val wattTotal = totalWatt.get()
         val cpu = cpuUsage.get()
         val wattOfApp = calculate(wattTotal, cpu)
-        Log.i("", "watt total: $wattTotal mW\ncpu: $cpu ppm\nwatt of app: $wattOfApp mW\n")
+        Log.i(TAG(), "watt total: $wattTotal mW\ncpu: $cpu ppm\nwatt of app: $wattOfApp mW\n")
         return wattOfApp
     }
 
