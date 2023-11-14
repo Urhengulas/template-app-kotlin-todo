@@ -14,6 +14,8 @@ class EnergyMeasurementWorker(
 
     override suspend fun doWork(): Result = coroutineScope {
         try {
+            // TODO: make interations dependent on worker interval (min 15 minutes)
+            // TODO: make measurement interval configurable
             for (i in 1..900) {
                 delay(1000)
                 val energyConsumption = measureEnergyConsumption(applicationContext)
