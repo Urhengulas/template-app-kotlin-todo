@@ -16,15 +16,16 @@ class EnergyMeasurementWorker(
 
     override suspend fun doWork(): Result = coroutineScope {
         try {
-            // TODO: make interations dependent on worker interval (min 15 minutes)
+            // TODO: make iterations dependent on worker interval (min 15 minutes)
             // TODO: make measurement interval configurable
             for (i in 1..900) {
-                delay(1000)
+                delay(2000)
                 val energyConsumption = measureEnergyConsumption(applicationContext)
                 sendToMongoDB(energyConsumption)
             }
             Result.success()
         } catch (e: Exception) {
+            Log.e(TAG(), "$e")
             Result.failure()
         }
     }
@@ -37,6 +38,6 @@ class EnergyMeasurementWorker(
 
     private fun sendToMongoDB(energyConsumption: Long) {
         // Implement MongoDB connection and data insertion logic here
-        Log.i("EnergyMonitor", "energyConsumption=$energyConsumption")
+        Log.i(TAG(), "$energyConsumption")
     }
 }
