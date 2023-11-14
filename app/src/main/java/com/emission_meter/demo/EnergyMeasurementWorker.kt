@@ -12,6 +12,8 @@ class EnergyMeasurementWorker(
     workerParams: WorkerParameters
 ) : CoroutineWorker(appContext, workerParams) {
 
+    private val wattOfApp = WattOfApp(appContext)
+
     override suspend fun doWork(): Result = coroutineScope {
         try {
             // TODO: make interations dependent on worker interval (min 15 minutes)
@@ -27,14 +29,14 @@ class EnergyMeasurementWorker(
         }
     }
 
-    private fun measureEnergyConsumption(context: Context): Double {
+    private fun measureEnergyConsumption(context: Context): Long {
         // Implement your energy measurement logic here
         // Example: val batteryManager = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-        return 0.0
+        return wattOfApp.get()
     }
 
-    private fun sendToMongoDB(energyConsumption: Double) {
+    private fun sendToMongoDB(energyConsumption: Long) {
         // Implement MongoDB connection and data insertion logic here
-        Log.i("EnergyMeasurementWorker", "energyConsumption=$energyConsumption")
+        Log.i("EnergyMonitor", "energyConsumption=$energyConsumption")
     }
 }
