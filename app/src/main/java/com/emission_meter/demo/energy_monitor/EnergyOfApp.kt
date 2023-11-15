@@ -18,7 +18,7 @@ class EnergyOfApp constructor(context: Context?) {
      * Return the energy consumption of the current app in mW.
      */
     fun energy(): Double {
-        val wattTotal = totalWatt.get().toDouble()
+        val wattTotal = totalWatt.get().toDouble() / 1_000.0 // convert from mW to W
         val cpu = cpuUsage.get()
         val wattOfApp = wattTotal * cpu
         Log.d(TAG(), "watt_total=$wattTotal cpu=$cpu watt_app=$wattOfApp time=${time()}")

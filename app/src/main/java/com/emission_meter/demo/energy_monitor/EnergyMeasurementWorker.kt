@@ -53,7 +53,7 @@ class EnergyMeasurementWorker(
         // TODO: make measurement interval configurable
         for (i in 1..900) {
             try {
-                delay(5000)
+                delay(1000)
                 sendToMongoDB(energyOfApp.energy(), energyOfApp.time())
             } catch (e: Exception) {
                 Log.e(TAG(), "$e")

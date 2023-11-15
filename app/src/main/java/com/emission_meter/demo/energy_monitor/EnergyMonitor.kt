@@ -11,7 +11,7 @@ object EnergyMonitor {
 
     // TODO: After the worker gets killed (after 10 minutes) it won't start again, unless we
     //  change the tag.
-    private const val ENERGY_WORK_TAG = "ENERGY_WORK_TAG10"
+    private const val ENERGY_WORK_TAG = "ENERGY_WORK_TAG12"
 
     fun initialize(context: Context, measurementIntervalMs: Long = 1000) {
         val constraints = Constraints.Builder()
