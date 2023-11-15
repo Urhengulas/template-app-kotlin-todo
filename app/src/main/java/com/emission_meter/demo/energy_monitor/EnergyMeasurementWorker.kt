@@ -54,7 +54,7 @@ class EnergyMeasurementWorker(
         for (i in 1..900) {
             try {
                 delay(5000)
-                sendToMongoDB(energyOfApp.energy().toLong(), energyOfApp.time())
+                sendToMongoDB(energyOfApp.energy(), energyOfApp.time())
             } catch (e: Exception) {
                 Log.e(TAG(), "$e")
             }
@@ -63,9 +63,9 @@ class EnergyMeasurementWorker(
 
     }
 
-    private suspend fun sendToMongoDB(power: Long, time: Long) {
+    private suspend fun sendToMongoDB(power: Double, time: Long) {
         val a = Energy().apply {
-            this.power = power // .toDouble()
+            this.power = power
             this.owner_id = user.id
             this.timestamp = RealmInstant.from(time, 0)
         }
@@ -83,7 +83,7 @@ class Energy() : RealmObject {
     var sensor: String = "android"
     var target: String = ""
     var timestamp =  RealmInstant.MIN
-    var power: Long = 0 // 0.0
+    var power: Double = 0.0
 }
 
 fun initConfig(user: User): SyncConfiguration {

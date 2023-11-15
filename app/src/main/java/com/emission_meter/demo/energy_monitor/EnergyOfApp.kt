@@ -78,13 +78,13 @@ class TotalWatt constructor(context: Context?) {
         // Error handling
         if (microAmpere == Long.MIN_VALUE) {
             // the platform does not provide BATTERY_PROPERTY_CURRENT_NOW
-            return Long.MIN_VALUE
+            return 0
         } else if (microAmpere > 0) {
             // the battery is charging, therefore we cannot measure power consumption
-            return Long.MIN_VALUE
+            return 0
         } else if (milliVolt == -1) {
             // intent does not contain EXTRA_VOLTAGE
-            return Long.MIN_VALUE
+            return 0
         }
 
         val nanoWatt = microAmpere * milliVolt
