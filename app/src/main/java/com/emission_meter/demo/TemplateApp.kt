@@ -15,9 +15,6 @@ inline fun <reified T> T.TAG(): String = T::class.java.simpleName
 *  Sets up the App and enables Realm-specific logging in debug mode.
 */
 class TemplateApp : Application() {
-
-    private lateinit var energyMonitor: EnergyMonitor
-
     override fun onCreate() {
         super.onCreate()
         app = App.create(

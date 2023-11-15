@@ -20,7 +20,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.mongodb.kbson.BsonObjectId
 import org.mongodb.kbson.ObjectId
 
 class EnergyMeasurementWorker(
@@ -52,8 +51,7 @@ class EnergyMeasurementWorker(
         for (i in 1..900) {
             try {
                 delay(5000)
-                val energyConsumption = wattOfApp.get()
-                sendToMongoDB(energyConsumption)
+                sendToMongoDB(wattOfApp.get(), wattOfApp.time())
             } catch (e: Exception) {
                 Log.e(TAG(), "$e")
             }
@@ -62,11 +60,12 @@ class EnergyMeasurementWorker(
 
     }
 
-    private suspend fun sendToMongoDB(energyConsumption: Long) {
+    private suspend fun sendToMongoDB(energy: Long, time: Long) {
         val a = Energy().apply {
-            energy = energyConsumption
-            owner_id = user.id
-        };
+            this.energy = energy
+            this.owner_id = user.id
+            this.time = time
+        }
         realm.write {
             copyToRealm(a)
         }
@@ -76,10 +75,10 @@ class EnergyMeasurementWorker(
 
 class Energy() : RealmObject {
     @PrimaryKey
-    var _id: ObjectId = BsonObjectId()
-    var time = 0
+    var _id: ObjectId = ObjectId()
     var energy: Long = 0
-    var owner_id = ""
+    var owner_id: String = ""
+    var time: Long = 0
 }
 
 fun initConfig(user: User): SyncConfiguration {
@@ -87,7 +86,7 @@ fun initConfig(user: User): SyncConfiguration {
         .Builder(user, setOf(Energy::class))
         .initialSubscriptions { realm ->
             add(
-                realm.query("owner_id == $0", user.id),
+                realm.query<Energy>("owner_id == $0", user.id),
                 "energy_subscription",
             )
         }

@@ -25,6 +25,10 @@ class WattOfApp constructor(context: Context?) {
         return wattOfApp
     }
 
+    fun time(): Long {
+        return cpuUsage.timeReal
+    }
+
     /**
      * Takes `watt` in `mW` and `cpuUsage` in `ppm` and returns `mW`.
      */
@@ -38,7 +42,7 @@ class CpuUsage {
     private val numCpu = 1 // TODO: Runtime.getRuntime().availableProcessors()
     private val precision = 1_000_000
     private var timeCpu = Process.getElapsedCpuTime() // ms
-    private var timeReal = SystemClock.elapsedRealtime() // ms
+    var timeReal = SystemClock.elapsedRealtime() // ms
 
     /**
      * Get the average CPU usage of the current app.

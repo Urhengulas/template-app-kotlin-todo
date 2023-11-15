@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object EnergyMonitor {
 
-    private const val ENERGY_WORK_TAG = "ENERGY_WORK_TAG"
+    private const val ENERGY_WORK_TAG = "ENERGY_WORK_TAG2"
 
     fun initialize(context: Context, measurementIntervalMs: Long = 1000) {
         val constraints = Constraints.Builder()
