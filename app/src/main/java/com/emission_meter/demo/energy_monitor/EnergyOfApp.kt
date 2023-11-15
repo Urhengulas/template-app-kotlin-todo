@@ -1,4 +1,4 @@
-package com.emission_meter.demo
+package com.emission_meter.demo.energy_monitor
 
 import android.content.Context
 import android.content.Intent
@@ -7,21 +7,22 @@ import android.os.BatteryManager
 import android.os.Process
 import android.os.SystemClock
 import android.util.Log
+import com.emission_meter.demo.TAG
 import kotlin.math.abs
 
 
-class WattOfApp constructor(context: Context?) {
+class EnergyOfApp constructor(context: Context?) {
     private val cpuUsage = CpuUsage()
     private val totalWatt = TotalWatt(context)
 
     /**
      * Return the energy consumption of the current app in mW.
      */
-    fun get(): Long {
+    fun energy(): Long {
         val wattTotal = totalWatt.get()
         val cpu = cpuUsage.get()
         val wattOfApp = calculate(wattTotal, cpu)
-        Log.i(TAG(), "watt total: $wattTotal mW\ncpu: $cpu ppm\nwatt of app: $wattOfApp mW\n")
+        Log.d(TAG(), "watt total: $wattTotal mW\ncpu: $cpu ppm\nwatt of app: $wattOfApp mW\n")
         return wattOfApp
     }
 

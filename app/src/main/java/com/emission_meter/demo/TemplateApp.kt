@@ -2,6 +2,7 @@ package com.emission_meter.demo
 
 import android.app.Application
 import android.util.Log
+import com.emission_meter.demo.energy_monitor.EnergyMonitor
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.AppConfiguration
 

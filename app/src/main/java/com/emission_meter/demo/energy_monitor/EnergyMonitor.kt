@@ -1,4 +1,4 @@
-package com.emission_meter.demo
+package com.emission_meter.demo.energy_monitor
 
 import android.content.Context
 import androidx.work.Constraints

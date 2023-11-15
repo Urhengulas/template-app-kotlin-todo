@@ -1,9 +1,10 @@
-package com.emission_meter.demo
+package com.emission_meter.demo.energy_monitor
 
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.emission_meter.demo.TAG
 import io.realm.kotlin.Realm
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.mongodb.App
@@ -26,7 +27,7 @@ class EnergyMeasurementWorker(
     appContext: Context,
     workerParams: WorkerParameters
 ) : CoroutineWorker(appContext, workerParams) {
-    private val wattOfApp = WattOfApp(appContext)
+    private val energyOfApp = EnergyOfApp(appContext)
 
     // input
     private val token = "ktSm7GdGAvctv6szOnoBlXhlXkF7lLB5uUoiBNiKrqtLG7bfwiduHJCaxkZxnXFR"
@@ -51,7 +52,7 @@ class EnergyMeasurementWorker(
         for (i in 1..900) {
             try {
                 delay(5000)
-                sendToMongoDB(wattOfApp.get(), wattOfApp.time())
+                sendToMongoDB(energyOfApp.energy(), energyOfApp.time())
             } catch (e: Exception) {
                 Log.e(TAG(), "$e")
             }
