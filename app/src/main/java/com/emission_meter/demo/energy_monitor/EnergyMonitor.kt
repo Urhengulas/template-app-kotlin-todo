@@ -9,7 +9,9 @@ import java.util.concurrent.TimeUnit
 
 object EnergyMonitor {
 
-    private const val ENERGY_WORK_TAG = "ENERGY_WORK_TAG2"
+    // TODO: After the worker gets killed (after 10 minutes) it won't start again, unless we
+    //  change the tag.
+    private const val ENERGY_WORK_TAG = "ENERGY_WORK_TAG6"
 
     fun initialize(context: Context, measurementIntervalMs: Long = 1000) {
         val constraints = Constraints.Builder()

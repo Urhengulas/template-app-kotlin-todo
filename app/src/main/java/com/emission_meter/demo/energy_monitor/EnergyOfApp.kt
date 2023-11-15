@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.Process
-import android.os.SystemClock
 import android.util.Log
 import com.emission_meter.demo.TAG
 import kotlin.math.abs
@@ -18,52 +17,45 @@ class EnergyOfApp constructor(context: Context?) {
     /**
      * Return the energy consumption of the current app in mW.
      */
-    fun energy(): Long {
-        val wattTotal = totalWatt.get()
+    fun energy(): Double {
+        val wattTotal = totalWatt.get().toDouble()
         val cpu = cpuUsage.get()
-        val wattOfApp = calculate(wattTotal, cpu)
-        Log.d(TAG(), "watt total: $wattTotal mW\ncpu: $cpu ppm\nwatt of app: $wattOfApp mW\n")
+        val wattOfApp = wattTotal * cpu
+        Log.d(TAG(), "watt_total=$wattTotal cpu=$cpu watt_app=$wattOfApp time=${time()}")
         return wattOfApp
     }
 
-    fun time(): Long {
-        return cpuUsage.timeReal
-    }
-
     /**
-     * Takes `watt` in `mW` and `cpuUsage` in `ppm` and returns `mW`.
+     * Unix time of last measurement in seconds
      */
-    private fun calculate(watt: Long, cpuUsage: Long): Long {
-        return watt * cpuUsage / 1_000_000
+    fun time(): Long {
+        return cpuUsage.timeUnix / 1000
     }
 }
 
 
 class CpuUsage {
     private val numCpu = 1 // TODO: Runtime.getRuntime().availableProcessors()
-    private val precision = 1_000_000
     private var timeCpu = Process.getElapsedCpuTime() // ms
-    var timeReal = SystemClock.elapsedRealtime() // ms
+    var timeUnix = System.currentTimeMillis() // ms
 
     /**
      * Get the average CPU usage of the current app.
      *
-     * The value is in ppm (parts per million). Divide it by 10_000 to get percent.
-     *
      * It is the average usage since the last time `.get` was called or since the creation of the
      * object, if it is the first time `.get` is called.
      */
-    fun get(): Long {
+    fun get(): Double {
         val newTimeCpu = Process.getElapsedCpuTime()
-        val newTimeReal = SystemClock.elapsedRealtime()
+        val newTimeUnix = System.currentTimeMillis()
 
         val dTimeCpu = newTimeCpu - timeCpu
-        val dTimeReal = newTimeReal - timeReal
+        val dTimeUnix = newTimeUnix - timeUnix
 
         timeCpu = newTimeCpu
-        timeReal = newTimeReal
+        timeUnix = newTimeUnix
 
-        return dTimeCpu * precision / dTimeReal / numCpu
+        return dTimeCpu.toDouble() / dTimeUnix.toDouble() / numCpu.toDouble()
     }
 }
 

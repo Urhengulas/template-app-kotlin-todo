@@ -6,6 +6,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.emission_meter.demo.TAG
 import io.realm.kotlin.Realm
+import io.realm.kotlin.UpdatePolicy
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.mongodb.App
 import io.realm.kotlin.mongodb.AppConfiguration
@@ -13,6 +14,7 @@ import io.realm.kotlin.mongodb.Credentials
 import io.realm.kotlin.mongodb.User
 import io.realm.kotlin.mongodb.subscriptions
 import io.realm.kotlin.mongodb.sync.SyncConfiguration
+import io.realm.kotlin.types.RealmInstant
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.coroutines.CoroutineScope
@@ -52,7 +54,7 @@ class EnergyMeasurementWorker(
         for (i in 1..900) {
             try {
                 delay(5000)
-                sendToMongoDB(energyOfApp.energy(), energyOfApp.time())
+                sendToMongoDB(energyOfApp.energy().toLong(), energyOfApp.time())
             } catch (e: Exception) {
                 Log.e(TAG(), "$e")
             }
@@ -61,14 +63,14 @@ class EnergyMeasurementWorker(
 
     }
 
-    private suspend fun sendToMongoDB(energy: Long, time: Long) {
+    private suspend fun sendToMongoDB(power: Long, time: Long) {
         val a = Energy().apply {
-            this.energy = energy
+            this.power = power // .toDouble()
             this.owner_id = user.id
-            this.time = time
+            this.timestamp = RealmInstant.from(time, 0)
         }
         realm.write {
-            copyToRealm(a)
+            copyToRealm(a, UpdatePolicy.ERROR)
         }
 
     }
@@ -77,9 +79,11 @@ class EnergyMeasurementWorker(
 class Energy() : RealmObject {
     @PrimaryKey
     var _id: ObjectId = ObjectId()
-    var energy: Long = 0
     var owner_id: String = ""
-    var time: Long = 0
+    var sensor: String = "android"
+    var target: String = ""
+    var timestamp =  RealmInstant.MIN
+    var power: Long = 0 // 0.0
 }
 
 fun initConfig(user: User): SyncConfiguration {
@@ -87,6 +91,7 @@ fun initConfig(user: User): SyncConfiguration {
         .Builder(user, setOf(Energy::class))
         .initialSubscriptions { realm ->
             add(
+                // TODO: only subscribe to N most recent elements
                 realm.query<Energy>("owner_id == $0", user.id),
                 "energy_subscription",
             )
