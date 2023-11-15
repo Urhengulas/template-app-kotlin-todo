@@ -81,7 +81,7 @@ class Energy() : RealmObject {
     var _id: ObjectId = ObjectId()
     var owner_id: String = ""
     var sensor: String = "android"
-    var target: String = ""
+    var target: String = "com.emission_meter.demo"
     var timestamp =  RealmInstant.MIN
     var power: Double = 0.0
 }
